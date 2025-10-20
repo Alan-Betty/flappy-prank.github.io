@@ -26,22 +26,17 @@
         (function loadFriendFromCandidates(){
             const candidates = [
                 'Images/image3.png',
-                'Images/image3.jpg',
-                './Images/image3.png',
-                './Images/image3.jpg'
+                './Images/image3.png'
             ];
             const parts = location.pathname.split('/').filter(Boolean);
             if(parts.length){
                 // repo base like /repo-name/Images/... (project pages)
-                candidates.push(`/${parts[0]}/Images/image3.png`, `/${parts[0]}/Images/image3.jpg`);
+                candidates.push(`/${parts[0]}/Images/image3.png`);
             }
             if(location.hostname && location.hostname.endsWith('.github.io')){
                 const username = location.hostname.split('.')[0];
                 const repo = parts[0] || `${username}.github.io`;
-                candidates.push(
-                    `https://raw.githubusercontent.com/${username}/${repo}/main/Images/image3.png`,
-                    `https://raw.githubusercontent.com/${username}/${repo}/main/Images/image3.jpg`
-                );
+                candidates.push(`https://raw.githubusercontent.com/${username}/${repo}/main/Images/image3.png`);
             }
             let idx = 0;
             friendImg.onload = () => console.info('friend image loaded ->', friendImg.src, friendImg.naturalWidth + 'x' + friendImg.naturalHeight);
