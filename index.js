@@ -22,11 +22,35 @@
         const bgImg = new Image(); bgImg.src = 'Images/flappy-bg.png';
         // Friend face image to be used as the bird sprite
         const friendImg = new Image();
-            (function tryLoadFriend(){ friendImg.src = 'Images/image3.png'; setTimeout(()=>{ if(!friendImg.complete) friendImg.src = 'Images/image3.png'; }, 150); })();
-                // Debug logging to help verify loading in the browser
-                friendImg.onload = function(){ console.info('offline.js: friend image loaded ->', friendImg.src, friendImg.naturalWidth + 'x' + friendImg.naturalHeight); };
-                friendImg.onerror = function(ev){ console.warn('offline.js: friend image failed to load ->', friendImg.src, ev); };
-                (function tryLoadFriend(){ friendImg.src = 'Images/image3.png'; setTimeout(()=>{ if(!friendImg.complete) friendImg.src = 'Images/image3.png'; }, 150); })();
+        // Robust loader for GitHub Pages: try several candidate URLs (relative, repo base, raw.githubusercontent)
+        (function loadFriendFromCandidates(){
+            const candidates = [
+                'Images/image3.png',
+                'Images/image3.jpg',
+                './Images/image3.png',
+                './Images/image3.jpg'
+            ];
+            const parts = location.pathname.split('/').filter(Boolean);
+            if(parts.length){
+                // repo base like /repo-name/Images/... (project pages)
+                candidates.push(`/${parts[0]}/Images/image3.png`, `/${parts[0]}/Images/image3.jpg`);
+            }
+            if(location.hostname && location.hostname.endsWith('.github.io')){
+                const username = location.hostname.split('.')[0];
+                const repo = parts[0] || `${username}.github.io`;
+                candidates.push(
+                    `https://raw.githubusercontent.com/${username}/${repo}/main/Images/image3.png`,
+                    `https://raw.githubusercontent.com/${username}/${repo}/main/Images/image3.jpg`
+                );
+            }
+            let idx = 0;
+            friendImg.onload = () => console.info('friend image loaded ->', friendImg.src, friendImg.naturalWidth + 'x' + friendImg.naturalHeight);
+            friendImg.onerror = (ev) => {
+                console.warn('friend image failed to load ->', friendImg.src, ev);
+                if(idx < candidates.length) friendImg.src = candidates[idx++];
+            };
+            if(candidates.length) friendImg.src = candidates[idx++];
+        })();
 
     function spawnPipe(){
         const gap = 220; const min = 60; const max = H - gap - 80; const top = Math.floor(Math.random()*(max-min))+min;
