@@ -1,0 +1,530 @@
+:root {
+    --primary-bg: #0a0a0a;
+    --secondary-bg: #1a1a1a;
+    --card-bg: #252525;
+    --accent-color: #00d4ff;
+    --secondary-accent: #ff6b6b;
+    --text-primary: #ffffff;
+    --text-secondary: #b0b0b0;
+    --text-muted: #808080;
+    --border-color: #333333;
+    --hover-bg: #2a2a2a;
+    --success-color: #00ff88;
+    --warning-color: #ffd700;
+    --error-color: #ff3366;
+}
+
+/* Light theme overrides */
+:root.light, html.light {
+    --primary-bg: #f7f8fa;
+    --secondary-bg: #ffffff;
+    --card-bg: #ffffff;
+    --accent-color: #ff7a00;
+    --secondary-accent: #ff6b6b;
+    --text-primary: #0b1220;
+    --text-secondary: #6b7280;
+    --text-muted: #9ca3af;
+    --border-color: #e6e6e6;
+    --hover-bg: #f3f4f6;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, var(--primary-bg) 0%, #1a1a2e 100%);
+    color: var(--text-primary);
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* Main Container */
+.main-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+/* Header Section */
+.header-section {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.pyraxis-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.pyraxis-icon {
+    font-size: 3rem;
+    background: linear-gradient(45deg, var(--accent-color), var(--warning-color));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+.pyraxis-logo h1 {
+    font-size: 2.8rem;
+    font-weight: 700;
+    background: linear-gradient(45deg, var(--accent-color), var(--text-primary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin: 0;
+}
+
+.connection-status {
+    background: var(--card-bg);
+    border-radius: 16px;
+    padding: 30px;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+}
+
+.offline-indicator {
+    width: 12px;
+    height: 12px;
+    background: var(--error-color);
+    border-radius: 50%;
+    margin: 0 auto 15px;
+    animation: blink 1.5s infinite;
+}
+
+@keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0.3; }
+}
+
+.connection-status h2 {
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+    color: var(--text-primary);
+}
+
+.connection-status p {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+}
+
+/* Games Section */
+.games-section {
+    width: 100%;
+    margin-bottom: 40px;
+}
+
+.games-section h3 {
+    font-size: 1.6rem;
+    text-align: center;
+    margin-bottom: 30px;
+    color: var(--text-primary);
+}
+
+.games-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.game-card {
+    background: var(--card-bg);
+    border-radius: 16px;
+    padding: 30px;
+    text-align: center;
+    cursor: pointer;
+    border: 1px solid var(--border-color);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.game-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 16px 40px rgba(0, 212, 255, 0.2);
+    border-color: var(--accent-color);
+    background: var(--hover-bg);
+}
+
+.game-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.1), transparent);
+    transition: left 0.5s;
+}
+
+.game-card:hover::before {
+    left: 100%;
+}
+
+.game-icon {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100px;
+    height: 100px;
+    margin: 0 auto 20px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent-color)10, var(--secondary-bg));
+    transition: transform 0.3s;
+}
+
+/* New thumbnail images inside game-icon */
+.game-icon .icon-img {
+    max-width: 72px;
+    max-height: 72px;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.25));
+}
+
+/* Flappy card animated sprite (3 frames in a horizontal strip) */
+.game-icon .icon-sprite {
+    display: inline-block;
+    width: 72px;   /* visible frame width */
+    height: 72px;  /* visible frame height */
+    background-image: url('Images/flappy.png');
+    background-repeat: no-repeat;
+    background-size: 216px 72px; /* 3 frames x 72px each; adjust if different */
+    image-rendering: auto;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.25));
+}
+
+.icon-flappy {
+    animation: flappy-anim 0.6s steps(3) infinite;
+}
+
+@keyframes flappy-anim {
+    from { background-position: 0 0; }
+    to   { background-position: -216px 0; } /* shift by total width to cycle frames */
+}
+
+.game-card:hover .game-icon {
+    transform: scale(1.1);
+}
+
+.game-card h4 {
+    font-size: 1.4rem;
+    margin-bottom: 8px;
+    color: var(--text-primary);
+}
+
+.game-card p {
+    color: var(--text-secondary);
+    font-size: 1rem;
+}
+
+/* Game Containers */
+.game-container {
+    background: var(--secondary-bg);
+    border-radius: 20px;
+    padding: 30px;
+    margin-top: 40px;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.4);
+    width: 100%;
+    max-width: 900px;
+}
+
+.game-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.game-header h3 {
+    font-size: 1.5rem;
+    color: var(--text-primary);
+}
+
+.close-game-btn {
+    background: var(--error-color);
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    font-size: 1.5rem;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.close-game-btn:hover {
+    background: #ff1a4d;
+    transform: scale(1.1);
+}
+
+/* Canvas Styling */
+canvas {
+    border: 2px solid var(--border-color);
+    border-radius: 12px;
+    display: block;
+    margin: 20px auto;
+    background: #87CEEB;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+#dinoCanvas {
+    background: #f7f7f7;
+}
+
+/* Game UI Elements */
+.game-score {
+    text-align: center;
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin: 20px 0;
+    color: var(--text-primary);
+}
+
+.game-over {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(26, 26, 26, 0.95);
+    backdrop-filter: blur(20px);
+    padding: 40px;
+    border-radius: 20px;
+    text-align: center;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    display: none;
+}
+
+.game-over h2 {
+    font-size: 2rem;
+    margin-bottom: 15px;
+    color: var(--error-color);
+}
+
+.game-over p {
+    font-size: 1.2rem;
+    margin-bottom: 25px;
+    color: var(--text-secondary);
+}
+
+.restart-btn {
+    background: linear-gradient(135deg, var(--accent-color), #0088cc);
+    border: none;
+    padding: 15px 30px;
+    font-size: 1.1rem;
+    border-radius: 12px;
+    color: white;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s;
+    margin: 10px;
+}
+
+.restart-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 212, 255, 0.3);
+    background: linear-gradient(135deg, #00b8ff, #0066aa);
+}
+
+.game-instructions {
+    margin-top: 10px;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+/* Coming Soon Styling */
+.coming-soon {
+    text-align: center;
+    padding: 60px 40px;
+}
+
+.coming-soon h2 {
+    font-size: 2.2rem;
+    margin-bottom: 20px;
+    color: var(--warning-color);
+}
+
+.coming-soon p {
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+    margin-bottom: 30px;
+    line-height: 1.6;
+}
+
+/* Troubleshooting Section */
+.troubleshooting-section {
+    width: 100%;
+    max-width: 600px;
+    margin-top: 40px;
+}
+
+details {
+    background: var(--card-bg);
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    overflow: hidden;
+}
+
+summary {
+    padding: 20px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    background: var(--hover-bg);
+    transition: background 0.3s;
+    user-select: none;
+}
+
+summary:hover {
+    background: var(--card-bg);
+}
+
+.troubleshooting-content {
+    padding: 20px;
+    border-top: 1px solid var(--border-color);
+}
+
+.troubleshooting-content ul {
+    list-style: none;
+    padding: 0;
+}
+
+.troubleshooting-content li {
+    padding: 8px 0;
+    color: var(--text-secondary);
+    font-size: 1rem;
+    position: relative;
+    padding-left: 25px;
+}
+
+.troubleshooting-content li::before {
+    content: '➔';
+    position: absolute;
+    left: 0;
+    color: var(--accent-color);
+    font-weight: bold;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .main-container {
+        padding: 20px 15px;
+    }
+
+    .pyraxis-logo {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .pyraxis-logo h1 {
+        font-size: 2.2rem;
+    }
+
+    .connection-status {
+        padding: 25px 20px;
+    }
+
+    .games-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .game-container {
+        padding: 20px;
+        margin-top: 30px;
+    }
+
+    canvas {
+        max-width: 100%;
+        height: auto;
+    }
+
+    #dinoCanvas {
+        width: 100%;
+        max-width: 600px;
+    }
+
+    .game-over {
+        padding: 30px 20px;
+        margin: 0 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .pyraxis-icon {
+        font-size: 2.5rem;
+    }
+
+    .pyraxis-logo h1 {
+        font-size: 1.8rem;
+    }
+
+    .connection-status h2 {
+        font-size: 1.5rem;
+    }
+
+    .connection-status p {
+        font-size: 1rem;
+    }
+
+    .game-card {
+        padding: 20px;
+    }
+
+    .game-icon {
+        width: 80px;
+        height: 80px;
+    }
+
+    .game-icon svg {
+        width: 60px;
+        height: 60px;
+    }
+}
+
+/* Additional animations and effects */
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+}
+
+.pyraxis-icon {
+    animation: float 3s ease-in-out infinite;
+}
+
+/* Smooth transitions for all interactive elements */
+* {
+    transition: color 0.3s, background-color 0.3s, border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+}
