@@ -4,190 +4,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pyraxis - No Internet Connection</title>
+    <title>Pyraxis - Flappy Bird (Offline)</title>
     <link rel="stylesheet" href="offline.css">
+    <style>body{background:#071022;color:#fff;font-family:Inter,system-ui,Arial}</style>
 </head>
 <body>
-    <!-- Main container with professional styling -->
     <div class="main-container">
-        <!-- Professional header section -->
         <div class="header-section">
             <div class="pyraxis-logo">
                 <div class="pyraxis-icon">🌟</div>
-                <h1>Pyraxis Browser</h1>
+                <h1>Pyraxis — Offline Flappy</h1>
             </div>
             <div class="connection-status">
                 <div class="offline-indicator"></div>
                 <h2>No internet connection</h2>
-                <p>Check your network settings and try again, or play games while you wait.</p>
+                <p>Play Flappy Bird while you wait — simplified offline build.</p>
             </div>
         </div>
 
-        <!-- Games section -->
-        <div class="games-section">
-            <h3>Play Offline Games</h3>
-            <div class="games-grid">
-                
-                <!-- Flappy Bird Game -->
-                <div class="game-card" id="flappy-card">
-                    <div class="game-icon" id="flappy-icon">
-                        <span class="icon-sprite icon-flappy" aria-hidden="true"></span>
-                    </div>
-                    <h4>Flappy Bird</h4>
-                    <p>Navigate through pipes</p>
-                </div>
-
-                <!-- Chrome Dino Game -->
-                <div class="game-card" id="dino-card">
-                    <div class="game-icon" id="dino-icon">
-                        <img src="Images/dino-stationary.png" alt="Chrome Dino" class="icon-img icon-dino" loading="eager">
-                    </div>
-                    <h4>Chrome Dino</h4>
-                    <p>Jump over cacti</p>
-                </div>
-
-                <!-- Geometry Dash (placeholder for future) -->
-                <div class="game-card" id="geometry-card">
-                    <div class="game-icon" id="geometry-icon">
-                        <svg width="80" height="80" viewBox="0 0 100 100" fill="none">
-                            <rect x="20" y="20" width="20" height="20" fill="#00FF88" transform="rotate(45 30 30)"/>
-                            <rect x="40" y="40" width="15" height="15" fill="#FF3366" transform="rotate(45 47.5 47.5)"/>
-                            <rect x="60" y="30" width="18" height="18" fill="#3366FF" transform="rotate(45 69 39)"/>
-                            <path d="M15 80 L85 80" stroke="#FFD700" stroke-width="3"/>
-                        </svg>
-                    </div>
-                    <h4>Geometry Dash</h4>
-                    <p>Coming Soon</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Game containers (hidden by default) -->
-        <div id="flappy-game-container" class="game-container" style="display: none;">
+        <div class="game-container" id="flappy-game-container">
             <div class="game-header">
                 <h3>Flappy Bird</h3>
-                <button class="close-game-btn" onclick="closeGame('flappy')">&times;</button>
             </div>
-            <canvas id="flappyCanvas" width="400" height="600"></canvas>
+            <canvas id="flappyCanvas" width="480" height="640"></canvas>
             <div class="game-score">
                 Score: <span id="flappyScore">0</span> | Best: <span id="flappyBest">0</span>
             </div>
-            <div class="game-over" id="flappyGameOver">
-                <h2>Game Over!</h2>
+            <div class="game-over" id="flappyGameOver" style="display:none;">
+                <h2>Happy Birthday!</h2>
                 <p>Final Score: <span id="flappyFinalScore">0</span></p>
-                <button class="restart-btn" onclick="restartFlappy()">Play Again</button>
+                <button class="restart-btn" id="flappyRestart">Play Again</button>
             </div>
         </div>
 
-        <div id="dino-game-container" class="game-container" style="display: none;">
-            <div class="game-header">
-                <h3>Chrome Dino Game</h3>
-                <button class="close-game-btn" onclick="closeGame('dino')">&times;</button>
-            </div>
-            <canvas id="dinoCanvas" width="800" height="200"></canvas>
-            <div class="game-score">
-                Score: <span id="dinoScore">0</span> | Best: <span id="dinoBest">0</span>
-            </div>
-            <div class="game-over" id="dinoGameOver">
-                <h2>Game Over!</h2>
-                <p>Final Score: <span id="dinoFinalScore">0</span></p>
-                <button class="restart-btn" onclick="restartDino()">Play Again</button>
-                <p class="game-instructions">Press SPACE or click to jump</p>
-            </div>
-        </div>
-
-        <div id="geometry-game-container" class="game-container" style="display: none;">
-            <div class="game-header">
-                <h3>Geometry Dash</h3>
-                <div style="display:flex;gap:10px;align-items:center">
-                    <label style="font-size:0.9rem;color:var(--text-secondary);">Sound:</label>
-                    <button id="gd-sound-toggle" class="restart-btn">Toggle</button>
-                    <button class="close-game-btn" onclick="closeGame('geometry')">&times;</button>
-                </div>
-            </div>
-            <div id="geometry-ui" style="padding:10px 0 0 0;">
-                <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;">
-                    <div>
-                        <label for="levelSelect" style="color:var(--text-secondary);">Level:</label>
-                        <select id="levelSelect"></select>
-                    </div>
-                    <div id="gd-editor-controls" style="margin-top:12px;padding:12px;background:var(--card-bg);border-radius:10px;border:1px solid var(--border-color);display:block;">
-                        <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;">
-                            <label style="color:var(--text-secondary);font-weight:600;">Editor Mode:</label>
-                            <button id="gd-editor-toggle" class="restart-btn">Open Editor</button>
-                            <label style="color:var(--text-secondary);">Object:</label>
-                            <select id="gd-obj-type">
-                                <option value="block">Block</option>
-                                <option value="moving">Moving Obstacle</option>
-                                <option value="floating">Floating Platform</option>
-                                <option value="portal">Portal</option>
-                            </select>
-                            <label style="color:var(--text-secondary);">Portal Effect:</label>
-                            <select id="gd-portal-effect">
-                                <option value="jump">Jump Pad</option>
-                                <option value="gravity">Gravity Flip</option>
-                                <option value="speed">Speed Change</option>
-                            </select>
-                            <label style="color:var(--text-secondary);">W</label>
-                            <input id="gd-obj-w" type="number" value="60" style="width:70px;">
-                            <label style="color:var(--text-secondary);">H</label>
-                            <input id="gd-obj-h" type="number" value="160" style="width:70px;">
-                            <label style="color:var(--text-secondary);">Speed/Amp</label>
-                            <input id="gd-obj-param" type="number" value="60" style="width:90px;">
-                        </div>
-                        <div style="margin-top:10px;display:flex;gap:8px;align-items:center;">
-                            <button id="gd-save-level" class="restart-btn">Save Level (local)</button>
-                            <button id="gd-load-level" class="restart-btn">Load Level</button>
-                            <button id="gd-export" class="restart-btn">Export JSON</button>
-                            <input id="gd-import-file" type="file" accept="application/json">
-                            <button id="gd-beatsync" class="restart-btn">Auto Place (Beat Sync)</button>
-                            <div style="margin-left:auto;color:var(--text-secondary);">Editor: <span id="gd-editor-state">Closed</span></div>
-                        </div>
-                        <div style="margin-top:8px;color:var(--text-secondary);">Tip: Open Editor, then click/tap the canvas to place objects. Use Export/Import to share levels.</div>
-                    </div>
-                    <div>
-                        <label for="audioFile" style="color:var(--text-secondary);">Music file (optional):</label>
-                        <input id="audioFile" type="file" accept="audio/*">
-                    </div>
-                    <div>
-                        <button id="gd-start" class="restart-btn">Start</button>
-                        <button id="gd-restart" class="restart-btn">Restart</button>
-                        <button id="gd-back" class="restart-btn">Back</button>
-                    </div>
-                    <div style="margin-left:auto;color:var(--text-secondary);">
-                        Best: <span id="gdBest">0</span>
-                    </div>
-                </div>
-                <div style="margin-top:12px;">
-                    <canvas id="geometryCanvas" width="900" height="400" style="width:100%;max-width:900px;background:#111;border-radius:12px;border:2px solid var(--border-color);"></canvas>
-                </div>
-                <div style="margin-top:10px;display:flex;align-items:center;gap:8px;">
-                    <div style="flex:1;height:10px;background:#222;border-radius:6px;overflow:hidden;border:1px solid var(--border-color);">
-                        <div id="gd-progress" style="height:100%;width:0%;background:linear-gradient(90deg,#00ff88,#00d4ff);"></div>
-                    </div>
-                    <div style="width:120px;text-align:right;color:var(--text-secondary);">Time: <span id="gdTime">0.00</span>s</div>
-                </div>
-                <div id="gd-message" style="margin-top:12px;color:var(--text-secondary);"></div>
-            </div>
-        </div>
-
-        <!-- Troubleshooting section -->
-        <div class="troubleshooting-section">
-            <details>
-                <summary>Troubleshooting</summary>
-                <div class="troubleshooting-content">
-                    <ul>
-                        <li>Check your network connection</li>
-                        <li>Try refreshing the page</li>
-                        <li>Check if other devices can connect</li>
-                        <li>Restart your router if necessary</li>
-                    </ul>
-                </div>
-            </details>
-        </div>
     </div>
 
-    <script src="offline.js"></script>
-    <script src="geometry-dash.js"></script>
+    <script src="index.js"></script>
 </body>
 </html>
