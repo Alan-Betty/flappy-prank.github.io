@@ -26,7 +26,7 @@
                 // Debug logging to help verify loading in the browser
                 friendImg.onload = function(){ console.info('offline.js: friend image loaded ->', friendImg.src, friendImg.naturalWidth + 'x' + friendImg.naturalHeight); };
                 friendImg.onerror = function(ev){ console.warn('offline.js: friend image failed to load ->', friendImg.src, ev); };
-                (function tryLoadFriend(){ friendImg.src = 'Images/image3.png'; setTimeout(()=>{ if(!friendImg.complete) friendImg.src = 'Images/image3.jpg'; }, 150); })();
+                (function tryLoadFriend(){ friendImg.src = 'Images/image3.png'; setTimeout(()=>{ if(!friendImg.complete) friendImg.src = 'Images/image3.png'; }, 150); })();
 
     function spawnPipe(){
         const gap = 220; const min = 60; const max = H - gap - 80; const top = Math.floor(Math.random()*(max-min))+min;
